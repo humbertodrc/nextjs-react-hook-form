@@ -25,3 +25,38 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+form{
+  width: 500px;
+  border: 1px solid #ccc;
+  padding: 30px;
+  margin-top: 20px;
+}
+
+form div{
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+form div input{
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: transparent;
+}
+
+form div select{
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: transparent;
+}
+
+form div select option{
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #000;
+}
