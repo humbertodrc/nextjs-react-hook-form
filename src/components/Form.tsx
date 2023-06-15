@@ -10,23 +10,12 @@ interface Inputs{
 
 export const Form = () => {
 
-  const { register, handleSubmit, watch, reset, formState: { errors, isDirty, dirtyFields, isSubmitted, isValid } } = useForm<Inputs>({
-    defaultValues: {
-      firstName: 'John',
-      lastName: 'Doe',
-      email: ''
-    }
-  });
+  const { register, handleSubmit, formState:{errors}} = useForm<Inputs>();
 
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
   const onsubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
-    reset({
-      firstName: 'John',
-      lastName: 'Doe',
-      email: ''
-    });
   }
 
   return (
