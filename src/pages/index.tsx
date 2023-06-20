@@ -1,15 +1,25 @@
-import {Form} from "@/components/Form";
-import {Container} from "@mui/material";
-import {Inter} from "next/font/google";
+import { Form } from "@/components/Form";
+import { Container } from "@mui/material";
+import { FormProvider, useForm } from "react-hook-form";
 
-const inter = Inter({subsets: ["latin"]});
+import { schema } from '@/components/rules';
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from 'yup';
+
 
 export default function Home() {
+
+	type FormData = yup.InferType<typeof schema>;
+
+	const methods =useForm<FormData>({resolver: yupResolver(schema)});
+
 	return (
 		<main>
-			<Container maxWidth={'md'}>
+			<Container maxWidth={"md"}>
 				<h1>React Hook Form</h1>
-				<Form />
+				<FormProvider {...methods}>
+					<Form />
+				</FormProvider>
 			</Container>
 		</main>
 	);

@@ -9,42 +9,16 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
-import {SubmitHandler, useForm, Controller} from "react-hook-form";
+import { Controller, FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
 
-// Yup
-import {yupResolver} from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { ErrorMessage } from '@hookform/error-message';
+import PersonalData from './PersonalData';
 
 export const Form = () => {
-	const schema = yup.object({
-		firstName: yup
-			.string()
-			.required("")
-			.min(3, "Debe ser mayor a 3 caracteres")
-			.max(10, "Debe ser menor a 10 caracteres"),
-		lastName: yup.string().required().min(5, "Debe ser mayor a 5 caracteres"),
-		email: yup
-			.string()
-			.required()
-			.email()
-			.matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Debe ser un email valido"),
-		gender: yup.string().required("Debe seleccionar un genero"),
-	});
 
-	type FormData = yup.InferType<typeof schema>;
+	const {handleSubmit, control, formState:{errors}, reset, getValues} = useFormContext();
 
-	const {
-		register,
-		handleSubmit,
-		formState: {errors},
-		control,
-	} = useForm<FormData>({resolver: yupResolver(schema)});
-
-	const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-	console.log(errors);
-
-	const onsubmit: SubmitHandler<FormData> = (data: FormData) => {
+	const onsubmit: SubmitHandler<FieldValues> = (data) => {
 		console.log(data);
 	};
 
@@ -55,43 +29,12 @@ export const Form = () => {
 				sx={{p: "32px", display: "flex", flexDirection: "column", gap: 3}}
 			>
 				<form onSubmit={handleSubmit(onsubmit)}>
-					<Controller
-						name="firstName"
-						control={control}
-						defaultValue=""
-						render={({field}) => (
-							<TextField
-								{...field}
-								label="Nombre"
-								variant="outlined"
-								fullWidth
-								sx={{mb: 2}}
-							/>
-						)}
-					/>
-					<Typography variant="caption" color="error">
-						{errors.firstName?.message}
-					</Typography>
-
-					<Controller
-						name="lastName"
-						control={control}
-						defaultValue=""
-						render={({field}) => (
-							<TextField
-								{...field}
-								label="Apellido"
-								variant="outlined"
-								fullWidth
-								sx={{mb: 2}}
-							/>
-						)}
-					/>
+					
+					<PersonalData  />
 
 					<Controller
 						name="email"
 						control={control}
-						rules={{required: true, pattern: regex}}
 						defaultValue=""
 						render={({field}) => (
 							<TextField
@@ -99,6 +42,7 @@ export const Form = () => {
 								type="email"
 								label="Email"
 								variant="outlined"
+								name='email'
 								fullWidth
 								sx={{mb: 2}}
 							/>
@@ -106,7 +50,8 @@ export const Form = () => {
 					/>
 
 					<Typography variant="caption" color="error">
-						{errors.email?.message}
+						{/* {errors.email?.message} */}
+						<ErrorMessage errors={errors} name="email" />
 					</Typography>
 
 					<FormControl fullWidth sx={{mb: 2}}>
@@ -123,6 +68,7 @@ export const Form = () => {
 									id="demo-simple-select-helper"
 									label="genero"
 									defaultValue=""
+									name='gender'
 								>
 									<MenuItem value="female">Femenino</MenuItem>
 									<MenuItem value="male">Masculino</MenuItem>
@@ -133,12 +79,16 @@ export const Form = () => {
 					</FormControl>
 
 					<Typography variant="caption" color="error">
-						{errors.gender?.message}
+						{/* {errors.gender?.message} */}
+						<ErrorMessage errors={errors} name='gender'/>
 					</Typography>
 
 					<Box>
 						<Button variant="contained" type="submit" sx={{marginTop: "10px"}}>
 							Enviar
+						</Button>
+						<Button variant="outlined" onClick={() => reset({...getValues(), firstName: ""})} type="reset" sx={{ marginTop: "10px", marginLeft: "20px" }}>
+							Reset
 						</Button>
 					</Box>
 				</form>
