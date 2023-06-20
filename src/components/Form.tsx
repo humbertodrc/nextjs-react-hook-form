@@ -1,5 +1,6 @@
 import {
 	Box,
+	Button,
 	FormControl,
 	InputLabel,
 	MenuItem,
@@ -14,12 +15,7 @@ import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
-// interface Inputs {
-// 	firstName: string;
-// 	lastName: string;
-// 	email: string;
-// 	gender: string;
-// }
+
 
 export const Form = () => {
 
@@ -57,7 +53,6 @@ export const Form = () => {
 					<Controller
 						name="firstName"
 						control={control}
-						// rules={{required: true, minLength: 3, maxLength: 10}}
 						defaultValue=""
 						render={({field}) => (
 							<TextField
@@ -70,22 +65,12 @@ export const Form = () => {
 						)}
 					/>
 					<Typography variant="caption" color="error">
-						{/* {errors.firstName?.type === "required" && (
-							<span>Este campo es requerido</span>
-						)}
-						{errors.firstName?.type === "minLength" && (
-							<span>El nombre debe tener al menos 3 caracteres</span>
-						)}
-						{errors.firstName?.type === "maxLength" && (
-							<span>El nombre debe tener menos de 10 caracteres</span>
-						)} */}
             {errors.firstName?.message}
 					</Typography>
 
 					<Controller
 						name="lastName"
 						control={control}
-						// rules={{required: true, minLength: 5}}
 						defaultValue=""
 						render={({field}) => (
 							<TextField
@@ -97,16 +82,6 @@ export const Form = () => {
 							/>
 						)}
 					/>
-
-					{/* <Typography variant="caption" color="error">
-						{errors.lastName?.type === "required" && (
-							<span>Este campo es requerido</span>
-						)}
-
-						{errors.lastName?.type === "minLength" && (
-							<span>El apellido debe tener al menos 5 caracteres</span>
-						)}
-					</Typography> */}
 
 					<Controller
 						name="email"
@@ -126,9 +101,6 @@ export const Form = () => {
 					/>
 
 					<Typography variant="caption" color="error">
-						{/* {errors.email?.type === "required" && (
-							<span>Este campo es requerido</span>
-						)} */}
             {errors.email?.message}
 					</Typography>
 
@@ -144,7 +116,7 @@ export const Form = () => {
                   {...field}
 									labelId="demo-simple-select-helper-label"
 									id="demo-simple-select-helper"
-									label="Age"
+									label="genero"
 									defaultValue=""
 								>
 									<MenuItem value="female">Femenino</MenuItem>
@@ -156,15 +128,12 @@ export const Form = () => {
           </FormControl>
           
           <Typography variant="caption" color="error">
-						{/* {errors.gender?.type === "required" && (
-							<span>Este campo es requerido</span>
-						)} */}
             {errors.gender?.message}
 					</Typography>
 
-					<button type="submit" style={{marginTop: "50px"}}>
+					<Button variant='contained' type="submit" sx={{marginTop: "10px"}}>
 						Enviar
-					</button>
+					</Button>
 				</form>
 			</Paper>
 		</Box>
