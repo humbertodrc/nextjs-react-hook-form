@@ -9,31 +9,36 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
-import { SubmitHandler, useForm, Controller } from "react-hook-form";
+import {SubmitHandler, useForm, Controller} from "react-hook-form";
 
 // Yup
-import { yupResolver } from '@hookform/resolvers/yup';
+import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-
-
 export const Form = () => {
+	const schema = yup.object({
+		firstName: yup
+			.string()
+			.required("")
+			.min(3, "Debe ser mayor a 3 caracteres")
+			.max(10, "Debe ser menor a 10 caracteres"),
+		lastName: yup.string().required().min(5, "Debe ser mayor a 5 caracteres"),
+		email: yup
+			.string()
+			.required()
+			.email()
+			.matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Debe ser un email valido"),
+		gender: yup.string().required("Debe seleccionar un genero"),
+	});
 
-  const schema = yup.object({
-    firstName: yup.string().required().min(3, "Debe ser mayor a 3 caracteres").max(10, "Debe ser menor a 10 caracteres"),
-    lastName: yup.string().required().min(5, "Debe ser mayor a 5 caracteres"),
-    email: yup.string().required().email().matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Debe ser un email valido"),
-    gender: yup.string().required("Debe seleccionar un genero")
-  })
-
-  type FormData = yup.InferType<typeof schema>;
+	type FormData = yup.InferType<typeof schema>;
 
 	const {
 		register,
 		handleSubmit,
 		formState: {errors},
 		control,
-	} = useForm<FormData>({ resolver: yupResolver(schema)});
+	} = useForm<FormData>({resolver: yupResolver(schema)});
 
 	const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -65,7 +70,7 @@ export const Form = () => {
 						)}
 					/>
 					<Typography variant="caption" color="error">
-            {errors.firstName?.message}
+						{errors.firstName?.message}
 					</Typography>
 
 					<Controller
@@ -90,18 +95,18 @@ export const Form = () => {
 						defaultValue=""
 						render={({field}) => (
 							<TextField
-                {...field}
-                type="email"
-                label="Email"
-                variant="outlined"
-                fullWidth
-                sx={{ mb: 2 }}
+								{...field}
+								type="email"
+								label="Email"
+								variant="outlined"
+								fullWidth
+								sx={{mb: 2}}
 							/>
 						)}
 					/>
 
 					<Typography variant="caption" color="error">
-            {errors.email?.message}
+						{errors.email?.message}
 					</Typography>
 
 					<FormControl fullWidth sx={{mb: 2}}>
@@ -112,8 +117,8 @@ export const Form = () => {
 							rules={{required: true}}
 							defaultValue=""
 							render={({field}) => (
-                <Select
-                  {...field}
+								<Select
+									{...field}
 									labelId="demo-simple-select-helper-label"
 									id="demo-simple-select-helper"
 									label="genero"
@@ -125,15 +130,17 @@ export const Form = () => {
 								</Select>
 							)}
 						/>
-          </FormControl>
-          
-          <Typography variant="caption" color="error">
-            {errors.gender?.message}
+					</FormControl>
+
+					<Typography variant="caption" color="error">
+						{errors.gender?.message}
 					</Typography>
 
-					<Button variant='contained' type="submit" sx={{marginTop: "10px"}}>
-						Enviar
-					</Button>
+					<Box>
+						<Button variant="contained" type="submit" sx={{marginTop: "10px"}}>
+							Enviar
+						</Button>
+					</Box>
 				</form>
 			</Paper>
 		</Box>
